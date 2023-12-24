@@ -1,7 +1,9 @@
 bool MemoryUtils::SetMemoryValue(HANDLE hProcess, DWORD64 baseAddr, const std::vector<DWORD64>& offsets, DWORD64 valueToWrite) {
     DWORD64 temp = 0;
 
-    DWORD64 address = GetMemoryAddress(hProcess, baseAddr, offsets);
+    DWORD64 address = GetMemoryAddress(hProcess, baseAddr, offsets);//获取内存地址
+
+    //写入内存
     if (!WriteProcessMemory(hProcess, (LPVOID)address, &valueToWrite, sizeof(DWORD64), &temp)) {
         return false;
     }
@@ -23,6 +25,7 @@ DWORD64 MemoryUtils::GetMemoryAddress(HANDLE hProcess, DWORD64 baseAddr, const s
     DWORD64 currentAddr = baseAddr;
     DWORD64 bytesRead = 0;
 
+    //遍历
     for (size_t i = 0; i < offsets.size(); ++i) {
         currentAddr += offsets[i];
       
